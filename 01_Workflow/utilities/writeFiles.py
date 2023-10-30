@@ -140,7 +140,7 @@ def write_antechamber(fh, jname, lname, dname):
         mkdir -p ../{jname}
         mkdir -p ../{jname}/Structure
         cd ../{jname}/Structure
-        sh ../../../01_Workflow/utilities/pipeline_extra.sh ../../../04_Docking/{jname}/{lname.split('/')[-1]} > antechamber.log
+        bash ../../../01_Workflow/utilities/pipeline_extra.sh ../../../04_Docking/{jname}/{lname.split('/')[-1]} > antechamber.log
         mv {lname.split('/')[-1].split('.')[0]} lig_param
         cd ..
         ''')
@@ -227,7 +227,7 @@ for idx, pose in enumerate(process_these_inpcrd):
         lig = pose.split('_')[0]
         traj_list = [x.split('/')[-1].split('.')[0] for x in glob.glob(f'../../Simulation/{{pose}}/*.nc')]
         for traj in traj_list:
-            g.write(f'~/Tools/amber_andes/bin/cpptraj -i ../in/{{pose}}/{{traj}}.in\\n')
+            g.write(f'cpptraj -i ../in/{{pose}}/{{traj}}.in\\n')
             with open(f'../in/{{pose}}/{{traj}}.in','w') as f:
                 f.write(f'parm ../../Structure/prmtop/{{this_ligand}}.prmtop\\n')
                 f.write(f'trajin ../../Simulation/{{pose}}/{{traj}}.nc\\n')
@@ -244,7 +244,7 @@ with open('process_all_cpptraj.sh','w') as f:
 def write_em(fh, jname):
     fh.write(f'''
         cd ../{jname}/Structure
-        for i in `seq 0 20`
+        for i in `seq 1 20`
         do
             echo "Minimizing energy for {jname}_${{i}} ..."
             python ../../../01_Workflow/utilities/em.py {jname}_${{i}}

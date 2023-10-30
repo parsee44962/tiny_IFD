@@ -74,7 +74,7 @@ for l in listing:
         first_res = int(l.split('-')[1].replace('t',''))-1
         print(first_res)
         print(full_protein[C_line[first_res]].strip('\n'))
-        first_line =  'ATOM      1  CH3 ACE     1' + full_protein[CA_line[first_res]][26:]
+        first_line =  'ATOM      1  C   ACE     1' + full_protein[CA_line[first_res]][26:]
         second_line = 'ATOM      2  C   ACE     1' + full_protein[C_line[first_res]][26:]
         third_line =  'ATOM      3  O   ACE     1' + full_protein[O_line[first_res]][26:]
         print(first_line)
@@ -84,7 +84,7 @@ for l in listing:
     if not last:
         # Take the CA coordinate from next res
         next_res = int(l.split('-')[2].replace('t',''))+1
-        next_line =  'ATOM      0  CH3 NME  ' + last_res + full_protein[CA_line[next_res]][26:]
+        next_line =  'ATOM      0  C   NME  ' + last_res + full_protein[CA_line[next_res]][26:]
         seg_protein.insert((len(seg_protein)-2), next_line)
     with open(new_f_name,'w') as f:
         f.writelines(seg_protein)
